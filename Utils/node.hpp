@@ -1,7 +1,6 @@
 #ifndef NODE;
 #define NODE;
 
-
 struct SNode{
     int value;
     SNode* next;
