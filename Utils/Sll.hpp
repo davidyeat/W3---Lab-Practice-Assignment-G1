@@ -63,4 +63,24 @@ class SLL{
             auto duration = chrono::duration_cast<chrono::nanoseconds>(t1 - t0);
             cout<<msg <<": "<<duration.count() <<" nanosecond(s)" <<endl;
         }
+        //A3.rotate-K
+        void rotateHead(int k){
+            if(n==0 || !head){
+                cout<<"(Empty!)\n";
+                return;
+            }
+            k = k>=n? k%n: k;
+            for(int i=0; i<k; i++) {
+                tail->next = head;
+                tail = head;
+                head = head->next;
+                tail->next= nullptr;
+            }
+        }
+        SNode getHead(){
+            return *head;
+        }
+        SNode getTail(){
+            return *tail;
+        }
 };
