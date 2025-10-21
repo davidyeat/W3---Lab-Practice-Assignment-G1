@@ -1,6 +1,6 @@
 #include<iostream>
 #include<string>
-#include "Utils/node.hpp"
+#include "node.hpp"
 #include <chrono>
 using namespace std;
 
@@ -29,6 +29,7 @@ class SLL{
                 cout << cur->data << "->";
                 cur = cur->next;
             }
+            
             cout << endl;
         }
 

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Utils/node.hpp"
+#include "node.hpp"
 #include <chrono>
 using namespace std;
 using clk = chrono::high_resolution_clock;
@@ -17,7 +17,11 @@ class CSll{
             n = 0;
         }
 
+        //----------------------------------------------------------------------
+
+        // A1 - CSL: tail-to-head wrap vs manual reset
         // Circular Linked List operation insert at the Front
+
         void pushFront(int val){
             SNode* newNode = new SNode{val, nullptr};
             if(head == nullptr){
@@ -54,6 +58,81 @@ class CSll{
             cout << endl;
         }
 
+        //----------------------------------------------------------------------
+
+        void deleteFront(){
+            if(head == nullptr){
+                cout << "Cannot delete from front: the list is already empty!" << endl;
+                return;
+            }
+            SNode* tmp = head;
+            tail->next = head->next;
+            head = head->next;
+            delete tmp;
+            n--;
+            return;
+        }
+
+        void deleteEnd(){
+            if(head == nullptr){
+                cout << "Cannot delete from front: the list is already empty!" << endl;
+                return;
+            }
+            if(head == tail){
+                delete head;
+                head = nullptr;
+                tail = nullptr;
+                return;
+            }
+            cur = head;
+            while(cur->next != tail){
+                cur =  cur->next;
+            }
+            SNode* tmp = tail;
+            cur->next = head;
+            tail = cur;
+            delete tmp;
+            n--;
+        }
+
+        //----------------------------------------------------------------------
+
+        // A2 - CSLL deletion with/ without predecessor
+
+        // Circular Singly Linked List Deletion without predecessor
+        void deleteWithoutPred(int position){
+            // Case position outside the valid range
+            if(position <= 0 || position > n){
+                cout << "Cannot delete: Position outside the valid range!" << endl;
+                return;
+            }
+            // Case delete from the front
+            if(position == 1){
+                deleteFront();
+                n--;
+                return;
+            }
+            // Case delete from the end
+            if(position == n){
+                deleteEnd();
+                n--;
+                return;
+            }
+            cur = head;
+            for(int i = 0; i < position - 1; i++){
+                cur = cur->next;
+            }
+            cur = head;
+            for(int i = 0; i < position - 1; i++){
+                cur = cur->next;
+            }
+        }
+        // Circular Singly Linked List Deletion with predecessor
+        void deleteWithPred(){
+            // ... 
+        }
+        
+
         // Counting time of print Circular Singly Linked List
         void csll_observe(CSll* obj, void (CSll::*method)(), string msg){
             auto t0 = clk::now();
@@ -65,5 +144,4 @@ class CSll{
             auto duration = chrono::duration_cast<chrono::nanoseconds>(t1 - t0);
             cout<<msg <<": "<<duration.count() <<" nanosecond(s)" <<endl;
         }
-
 };
