@@ -4,24 +4,14 @@
 
 using namespace std;
 
-class LinkedList{
+class SLL{
     private:
-        Sll *head, *cur;
+        SNode *head, *cur;
         int n;
     public:
-        LinkedList(){
+        SLL(){
             head=nullptr;
             cur=nullptr;
             n=0;
-        }
-        ~LinkedList() {
-            cur = head;
-            Sll* nextNode = nullptr;
-
-            while (cur != nullptr) {
-                nextNode = cur->next; // Save the next node
-                delete cur;           // Delete the current node
-                cur = nextNode;       // Move to the next node
-            }
         }
 };
