@@ -17,7 +17,7 @@ class CSll{
             n = 0;
         }
 
-        // At the Beginning
+        // Circular Linked List operation insert at the Front
         void pushFront(int val){
             SNode* newNode = new SNode{val, nullptr};
             if(head == nullptr){
@@ -29,14 +29,17 @@ class CSll{
                 tail->next = newNode;
                 head = newNode;
             }
-    }
-        // Create nodes by Insert at the Front
+            n++;
+        }
+
+        // Generate Circular Singly Linked List
         void genList(int n){
             for(int i = n; i > 0; i--){
                pushFront(i);
             }
         }
-    
+        
+        // Print Circular Singly Linked List by single loop of n steps
         void print_by_n(){
             cur = head;
             if(cur == nullptr){
@@ -51,7 +54,8 @@ class CSll{
             cout << endl;
         }
 
-        void sll_observe(CSll* obj, void (CSll::*method)(), string msg){
+        // Counting time of print Circular Singly Linked List
+        void csll_observe(CSll* obj, void (CSll::*method)(), string msg){
             auto t0 = clk::now();
 
             (obj->*method)(); // perform operation
