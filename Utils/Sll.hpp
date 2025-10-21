@@ -6,7 +6,7 @@ using namespace std;
 
 class SLL{
     private:
-        SNode *head, *cur;
+        SNode *head, *cur, *tail;
         int n;
     public:
         SLL(){
