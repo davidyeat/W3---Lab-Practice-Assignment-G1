@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Utils/node.hpp"
+#include "node.hpp"
 #include <chrono>
 using namespace std;
 using clk = chrono::high_resolution_clock;
@@ -64,6 +64,32 @@ class CSll{
 
             auto duration = chrono::duration_cast<chrono::nanoseconds>(t1 - t0);
             cout<<msg <<": "<<duration.count() <<" nanosecond(s)" <<endl;
+        }
+        
+        //A3.rotate-K
+        void rotateHead(int k){
+            if(n==0){
+                cout<<"(Empty!)\n";
+                return;
+            }
+            if (!head || !tail) {
+                cout << "(Invalid list!)\n";
+                return;
+            }
+
+            k = k>=n? k%n: k;
+            for(int i=0; i<k; i++) {
+                head = head->next;
+                tail = tail->next;
+            }
+
+        }
+
+        SNode getHead(){
+            return *head;
+        }
+        SNode getTail(){
+            return *tail;
         }
 
 };
