@@ -1,7 +1,7 @@
 #include<iostream>
-#include "Utils/node.hpp"
-#include "Utils/CSLL.hpp"
-#include "Utils/Dll.hpp"
+#include "node.hpp"
+#include "CSLL.hpp"
+#include "Dll.hpp"
 
 
 
