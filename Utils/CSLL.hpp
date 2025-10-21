@@ -100,69 +100,128 @@ class CSll{
         // A2 - CSLL deletion with/ without predecessor
 
         // Circular Singly Linked List Deletion without predecessor
-        void deleteWithoutPred(int position){
-            // Check for empty list and invalid positions
-            if(head == nullptr || position < 0 || position >= n){
-                cout << "No node to delete\n";
-                return;
-            }
-            if(position == 0){
-                deleteFront();
+        void deleteWithoutPred(SNode* nodeToDelete) {
+            if(nodeToDelete == nullptr) return;
+            if(head == nullptr) return;
+            
+            if(head == tail && head == nodeToDelete) {
+                delete head;
+                head = tail = nullptr;
+                n = 0;
                 return;
             }
             
-            if(position == n-1){
-                deleteEnd();
-                return;
+            SNode* predecessor = nullptr;
+            bool nodeFound = false;
+            
+            SNode* temp = head;
+            do {
+                if(temp == nodeToDelete) {
+                    nodeFound = true;
+                    break;
+                }
+                temp = temp->next;
+            } while(temp != head);
+            
+            if(!nodeFound) return;
+            
+            if(nodeToDelete == head) {
+                predecessor = tail;
+            } else {
+                SNode* current = head;
+                do {
+                    if(current->next == nodeToDelete) {
+                        predecessor = current;
+                        break;
+                    }
+                    current = current->next;
+                } while(current != head);
             }
-            // Find the predecessor node
-            cur = head;
-            for (int i = 0; i < position - 1; i++) {
-                cur = cur->next;
+            
+            if(predecessor == nullptr) return;
+            
+            if(nodeToDelete == head) {
+                head = head->next;
+                tail->next = head;
+            } else {
+                predecessor->next = nodeToDelete->next;
             }
-            // Delete the node
-            SNode *temp = cur->next;
-            cur->next = temp->next;
-            delete temp;
+            
+            if(nodeToDelete == tail) {
+                tail = predecessor;
+                tail->next = head;
+            }
+            
+            delete nodeToDelete;
             n--;
-            // If list becomes empty, update tail
-            if(n == 0){
+            
+            if(n == 0) {
                 head = tail = nullptr;
             }
         }
         // Circular Singly Linked List Deletion with predecessor
-        void deleteWithPred(int position){
-            if(head == nullptr || position < 0 || position >= n) return;
-        
-            if(position == 0) {
-                SNode* temp = head;
-                if(head == tail) {
-                    head = tail = nullptr;
-                } else {
-                    head = head->next;
-                    tail->next = head;
-                }
-                delete temp;
-                n--;
+        void deleteWithPred(SNode* predecessor, SNode* nodeToDelete) {
+            if(nodeToDelete == nullptr) return;
+            
+            if(head == tail && head == nodeToDelete) {
+                delete head;
+                head = tail = nullptr;
+                n = 0;
                 return;
             }
 
-            SNode* prev = nullptr;
-            SNode* current = head;
-            for(int i = 0; i < position; i++) {
-                prev = current;
-                current = current->next;
+            if(nodeToDelete == head) {
+                head = head->next;
+                tail->next = head;
+            } else {
+                predecessor->next = nodeToDelete->next;
             }
 
-            prev->next = current->next;
-            if(current == tail) {
-                tail = prev;
+            if(nodeToDelete == tail) {
+                tail = predecessor;
                 tail->next = head;
             }
-            delete current;
+
+            delete nodeToDelete;
             n--;
+            
+            if(n == 0) {
+                head = tail = nullptr;
+            }
         }
-        
+
+        // Helper function to get node at specific position
+        SNode* getNodeAtPosition(int position) {
+            if(position < 0 || position >= n) return nullptr;
+            SNode* temp = head;
+            for(int i = 0; i < position; i++) {
+                temp = temp->next;
+            }
+            return temp;
+        }
+
+        // Helper function to find node by value
+        SNode* findNodeByValue(int value) {
+            if(head == nullptr) return nullptr;
+            SNode* temp = head;
+            do {
+                if(temp->data == value) return temp;
+                temp = temp->next;
+            } while(temp != head);
+            return nullptr;
+        }
+
+        // Helper function to get predecessor of a given node
+        SNode* getPredecessor(SNode* node) {
+            if(head == nullptr || node == nullptr) return nullptr;
+            if(node == head) return tail;
+            SNode* current = head;
+            do {
+                if(current->next == node) return current;
+                current = current->next;
+            } while(current != head);
+            return nullptr;
+        }
 
         // Counting time of print Circular Singly Linked List
         void csll_observe(CSll* obj, void (CSll::*method)(), string msg){
