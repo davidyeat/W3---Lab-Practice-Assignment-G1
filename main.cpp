@@ -12,13 +12,14 @@ int main(){
     cs_list.genList(100);
     s_list.genList(100);
 
+    //push/pop with SLL
     s_list.push_front(20);
     s_list.pop_front();
     s_list.push_front(35);
     s_list.pop_back();
     s_list.push_back(46);
     
-
+    // push/pop with DLL
     d_list.push_front(48);
     d_list.push_back(98);
     d_list.push_front(26);
