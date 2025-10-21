@@ -77,6 +77,58 @@ class SLL{
                 tail->next= nullptr;
             }
         }
+
+        // A5: Push/Pop ends
+
+        // SLL with head
+        void push_front(int val){
+            SNode* newNode = new SNode{val, head};
+            head = newNode;
+        }
+        void pop_front(){
+            if(head == nullptr){
+                cout<<"Empty! Nothing to delete"<<endl;
+                return;
+            }
+            SNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+
+        // SLL with tail
+        void push_back(int val){
+            SNode* newNode = new SNode{val, nullptr};
+            if(head == nullptr){
+                head = newNode;
+                return;
+            }
+            cur = head;
+            while(cur->next != nullptr){
+                cur = cur->next;
+            }
+            cur->next = newNode;
+        }
+        void pop_back(){
+            if(head == nullptr){
+                cout<<"Nothing to deleted\n";
+                return;
+            }
+
+            // if it is only one Node
+            if(head->next == nullptr){
+                delete head;
+                head = nullptr;
+                return;
+            }
+
+            cur = head;
+            while(cur->next->next){
+                cur = cur->next;
+            }
+            delete cur->next;
+            cur->next = nullptr;
+        }
+
         SNode getHead(){
             return *head;
         }
