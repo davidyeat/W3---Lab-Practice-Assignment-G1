@@ -1,0 +1,1 @@
+d_list.pop_front();
