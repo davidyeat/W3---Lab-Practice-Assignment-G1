@@ -101,35 +101,66 @@ class CSll{
 
         // Circular Singly Linked List Deletion without predecessor
         void deleteWithoutPred(int position){
-            // Case position outside the valid range
-            if(position <= 0 || position > n){
-                cout << "Cannot delete: Position outside the valid range!" << endl;
+            // Check for empty list and invalid positions
+            if(head == nullptr || position < 0 || position >= n){
+                cout << "No node to delete\n";
                 return;
             }
-            // Case delete from the front
-            if(position == 1){
+            if(position == 0){
                 deleteFront();
-                n--;
                 return;
             }
-            // Case delete from the end
-            if(position == n){
+            
+            if(position == n-1){
                 deleteEnd();
-                n--;
                 return;
             }
+            // Find the predecessor node
             cur = head;
-            for(int i = 0; i < position - 1; i++){
+            for (int i = 0; i < position - 1; i++) {
                 cur = cur->next;
             }
-            cur = head;
-            for(int i = 0; i < position - 1; i++){
-                cur = cur->next;
+            // Delete the node
+            SNode *temp = cur->next;
+            cur->next = temp->next;
+            delete temp;
+            n--;
+            // If list becomes empty, update tail
+            if(n == 0){
+                head = tail = nullptr;
             }
         }
         // Circular Singly Linked List Deletion with predecessor
-        void deleteWithPred(){
-            // ... 
+        void deleteWithPred(int position){
+            if(head == nullptr || position < 0 || position >= n) return;
+        
+            if(position == 0) {
+                SNode* temp = head;
+                if(head == tail) {
+                    head = tail = nullptr;
+                } else {
+                    head = head->next;
+                    tail->next = head;
+                }
+                delete temp;
+                n--;
+                return;
+            }
+
+            SNode* prev = nullptr;
+            SNode* current = head;
+            for(int i = 0; i < position; i++) {
+                prev = current;
+                current = current->next;
+            }
+
+            prev->next = current->next;
+            if(current == tail) {
+                tail = prev;
+                tail->next = head;
+            }
+            delete current;
+            n--;
         }
         
 
@@ -143,112 +174,5 @@ class CSll{
 
             auto duration = chrono::duration_cast<chrono::nanoseconds>(t1 - t0);
             cout<<msg <<": "<<duration.count() <<" nanosecond(s)" <<endl;
-        }
-        void deleteWithPrevious(SNode* predecessor, SNode* nodeToDelete){
-            if(nodeToDelete == nullptr){
-                cout << "Node to be deleted is null." << endl;
-                return;
-            }
-            if(nodeToDelete != head && predecessor == nullptr) {
-                cout << "Error: Predecessor cannot be null for non-head node" << endl;
-                return;
-            }
-            
-            if(head == tail && head == nodeToDelete){
-                delete head;
-                head = tail = nullptr;
-                n=0;
-                return;
-            }
-            if(nodeToDelete == head){
-                head = head->next;
-                tail->next = head;
-            } else {
-                predecessor->next = nodeToDelete->next;
-            }
-            if(nodeToDelete == tail){
-                tail = predecessor;
-                tail->next = head;
-            }
-            delete nodeToDelete;
-            n--;
-            if(n == 0){
-                head = tail = nullptr;
-            }
-        }
-        void deleteWithoutPrevious(SNode* nodeToDelete){
-            if(nodeToDelete == nullptr){
-                cout << "Node to be deleted is null." << endl;
-                return;
-            }
-            
-            if(head == nullptr){
-                cout << "List is empty" << endl;
-                return;
-            }
-            
-            // Single node case
-            if(head == tail && head == nodeToDelete){
-                delete head;
-                head = tail = nullptr;
-                n = 0;
-                cout << "Deleted only node" << endl;
-                return;
-            }
-
-            SNode* predecessor = nullptr;
-            bool nodeFound = false;
-            
-            SNode* temp = head;
-            do {
-                if(temp == nodeToDelete) {
-                    nodeFound = true;
-                    break;
-                }
-                temp = temp->next;
-            } while(temp != head);
-            
-            if(!nodeFound){
-                cout << "Node not found in list" << endl;
-                return;
-            }
-            
-            if(nodeToDelete == head) {
-                predecessor = tail;  // In circular list, tail points to head
-            } else {
-                SNode* current = head;
-                do {
-                    if(current->next == nodeToDelete) {
-                        predecessor = current;
-                        break;
-                    }
-                    current = current->next;
-                } while(current != head);
-            }
-            
-            if(predecessor == nullptr){
-                cout << "Error: Could not find predecessor" << endl;
-                return;
-            }
-            
-            cout << "Deleting node " << nodeToDelete->data << endl;
-            
-            if(nodeToDelete == head){
-                head = head->next;
-                tail->next = head;
-            } else {
-                predecessor->next = nodeToDelete->next;
-            }
-            
-            if(nodeToDelete == tail){
-                tail = predecessor;
-            }
-            
-            delete nodeToDelete;
-            n--;
-            
-            if(n == 0){
-                head = tail = nullptr;
-            }
         }
 };

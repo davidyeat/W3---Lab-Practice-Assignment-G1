@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     CSll cs_list;
     SLL s_list;
-
+    
     cs_list.genList(100);
     s_list.genList(100);
 
