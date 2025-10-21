@@ -1,15 +1,15 @@
 #ifndef NODE
 #define NODE
-    struct Node
+    struct Sll
     {
         int data;
-        Node* next;
+        Sll* next;
     };
-    struct DNode
+    struct Dll
     {
         int data;
-        DNode* next;
-        DNode* prev;
+        Dll* next;
+        Dll* prev;
     };
     
 #endif
