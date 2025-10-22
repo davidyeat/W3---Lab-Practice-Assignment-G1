@@ -247,4 +247,31 @@ class CSll{
                 tail = tail->next;
             }
         }
+      
+        void rotateRight(int k) {
+            if (n <= 1 || !head || !tail) {
+                return;  
+            }
+        
+            k = k % n;
+            if (k == 0) {
+                return; 
+            }
+
+            // Find new head position
+            SNode* newHead = head;
+            for(int i = 0; i < (n - k); i++) {
+                newHead = newHead->next;
+            }
+
+            // Find new tail (node before new head)
+            SNode* newTail = newHead;
+            while(newTail->next != newHead) {
+                newTail = newTail->next;
+            }
+
+            // Update head and tail
+            head = newHead;
+            tail = newTail;
+        }
 };

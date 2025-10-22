@@ -78,6 +78,50 @@ class SLL{
                 tail->next= nullptr;
             }
         }
+          
+
+        void rotateRight(int k) {
+            
+            if (n == 0 || !head || head->next == nullptr) {
+                return;
+            }
+
+            // . Calculate the effective rotation
+           
+            k = k % n;
+            if (k == 0) {
+                return;
+            }
+
+            //  Find the new tail using a two-pointer approach
+            SNode* slow = head; // This will become the new tail
+            SNode* fast = head; // This will find the old tail
+
+            // Move 'fast' pointer k steps ahead
+            for (int i = 0; i < k; i++) {
+                fast = fast->next;
+            }
+
+            // 4. Move both pointers together until 'fast' reaches the *last* node
+            while (fast->next != nullptr) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+
+            // 5. At this point:
+            // 'fast' is the original tail (n-th node)
+            // 'slow' is the new tail ((n-k)-th node)
+
+            // 6. Perform the "find-break-relink"
+            SNode* new_head = slow->next; // FIND: The new head is after the new tail
+
+            fast->next = head;          // RELINK: Connect the old tail to the old head
+            slow->next = nullptr;       // BREAK: The new tail points to null
+
+            //  Update the head and tail pointers
+            head = new_head;
+            tail = slow;
+        }
 
         // A5: Push/Pop ends
 
