@@ -21,7 +21,7 @@ class ReTray_S{
         SNode* head;
     public:
         ReTray_S(): head(nullptr){}
-        void addFront(const string& item){
+        void addFront(const string item){
             SNode* newNode = new SNode{item, head};
             head= newNode;
         }
@@ -50,7 +50,7 @@ class ReTray_S{
 
     
 
-        ReTray_S(){
+        ~ReTray_S(){
             while (head) RemoveFront();
         }
 
@@ -71,7 +71,7 @@ class ReTray_D{
         DNode* head;
     public:
         ReTray_D(): head(nullptr){}
-        void addFront(const string& item){
+        void addFront(const string item){
             DNode* newNode = new DNode{item, head, nullptr};
             if(head)head->prev = newNode;
             head= newNode;
