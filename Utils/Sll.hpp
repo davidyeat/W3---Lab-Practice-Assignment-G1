@@ -15,6 +15,7 @@ class SLL{
         SLL(){
             head = nullptr;
             cur = nullptr;
+            tail = nullptr;
             n = 0;
         }
 
@@ -145,28 +146,6 @@ class SLL{
             }
         }
 
-        void popBackTail(){
-            if(!head || n==0){
-                cout<<"List is empty!\n";
-                return;
-            }
-
-             if(head->next == nullptr){
-                delete head;
-                head = nullptr;
-                return;
-            }
-
-            cur = head;
-            while(cur->next != tail){
-                cur = cur->next;
-            }
-            delete tail;          // delete last node
-            tail = cur;           // update tail
-            tail->next = nullptr;
-            n--;
-
-        }
 
         SNode getHead(){
             return *head;
