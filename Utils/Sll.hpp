@@ -81,11 +81,8 @@ class SLL{
         // A5: Push/Pop ends
 
         // SLL with head
-        void push_front(int val){
-            SNode* newNode = new SNode{val, head};
-            head = newNode;
-        }
-        void pop_front(){
+        
+        void popFront(){
             if(head == nullptr){
                 cout<<"Empty! Nothing to delete"<<endl;
                 return;
@@ -93,10 +90,11 @@ class SLL{
             SNode* temp = head;
             head = head->next;
             delete temp;
+            n--;
         }
 
-        // SLL with tail
-        void push_back(int val){
+       
+        void pushBack(int val){
             SNode* newNode = new SNode{val, nullptr};
             if(head == nullptr){
                 head = newNode;
@@ -107,8 +105,10 @@ class SLL{
                 cur = cur->next;
             }
             cur->next = newNode;
+            tail = newNode; // just use tail to stand at the end of the node
+            n++;
         }
-        void pop_back(){
+        void popBack(){
             if(head == nullptr){
                 cout<<"Nothing to deleted\n";
                 return;
@@ -127,6 +127,45 @@ class SLL{
             }
             delete cur->next;
             cur->next = nullptr;
+            tail = cur;// just use tail to easy implement in some function
+            n--;
+        }
+
+       
+        // push and pop head + tail
+        void pushBackTail(int val){
+            SNode* newNode = new SNode{val, nullptr};
+
+            // if list is empty
+            if (head == nullptr) {
+                head = tail = newNode;
+            } else {
+                tail->next = newNode; // link the last node to new node
+                tail = newNode;       // update tail pointer
+            }
+        }
+
+        void popBackTail(){
+            if(!head || n==0){
+                cout<<"List is empty!\n";
+                return;
+            }
+
+             if(head->next == nullptr){
+                delete head;
+                head = nullptr;
+                return;
+            }
+
+            cur = head;
+            while(cur->next != tail){
+                cur = cur->next;
+            }
+            delete tail;          // delete last node
+            tail = cur;           // update tail
+            tail->next = nullptr;
+            n--;
+
         }
 
         SNode getHead(){

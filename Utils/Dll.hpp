@@ -15,7 +15,7 @@ class DLL{
             n=0;
         }
         // push/pop with DLL
-        void push_front(int val){
+        void pushFront(int val){
             DNode* newNode = new DNode{val,head, nullptr};
             if(head != nullptr){
                 head->prev = newNode;
@@ -23,9 +23,10 @@ class DLL{
                 tail = newNode;
             }
             head = newNode;
+            n++;
         }
 
-        void push_back(int val){
+        void pushBack(int val){
             DNode* newNode = new DNode{val, nullptr, tail};
             if(tail != nullptr){
                 tail->next = newNode;
@@ -33,9 +34,11 @@ class DLL{
                 head = newNode;
             }
             tail = newNode;
+            n++;
+
         }
 
-        void pop_front(){
+        void popFront(){
             if(head == nullptr){
                 cout<<"Empty! Nothing to delete\n";
                 return;
@@ -43,8 +46,9 @@ class DLL{
             DNode* temp = head;
             head = head->next;
             delete temp;
+            n--;
         }
-        void pop_back(){
+        void popBack(){
             if(tail == nullptr){
                 cout<<"Empty! Nothing to delete\n";
                 return;
@@ -57,5 +61,53 @@ class DLL{
                 head = nullptr;
             }
             delete temp;
+            n--;
+        }
+
+        void genList(int n){
+            if (n <= 0) return;
+            for(int i=n; i>=1; i--){
+                pushFront(i);
+            }
+        }
+
+        void printList(){
+            cur = head;
+            if(cur == nullptr){
+                cout << "List is empty!" << endl;
+                return;
+            }
+            while(cur != nullptr){
+                cout << cur->data << "->";
+                cur = cur->next;
+            }
+            
+            cout << endl;
+        }
+
+        void popAt(int pos ){
+            if(n==0 || !head){
+                cout<<"List is empty!\n";
+                return; 
+            }
+            if(pos<0 || pos>n){
+                cout<<"Can't delete!\n";
+                return;
+            }
+            if(pos == n){
+                popBack();
+                return;
+            }
+            if(pos == 0 ){
+                popFront();
+                return;
+            }
+            cur = head;
+            for(int i=0; i<pos-1; i++){
+                cur = cur->next;
+            }
+            cur->prev->next = cur->next;
+            cur->next->prev = cur->prev;
+            delete cur;
         }
 };
