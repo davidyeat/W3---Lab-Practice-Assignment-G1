@@ -1,6 +1,8 @@
 #include<iostream>
 #include<string>
 #include<chrono>
+#include<vector>
+#include<string>
 
 using namespace std;
 using clk = chrono::high_resolution_clock;
@@ -16,14 +18,19 @@ struct DNode{
     DNode* prev;
 };
 
-class ReTray_S{
+class SLB{
     private:
-        SNode* head;
+        SNode* head, *cur;
+        int n;
     public:
-        ReTray_S(): head(nullptr){}
+        SLB(){ 
+            head = nullptr;
+            n=0;
+        }
         void addFront(const string item){
             SNode* newNode = new SNode{item, head};
             head= newNode;
+            n++;
         }
 
         void RemoveFront(){
@@ -31,18 +38,18 @@ class ReTray_S{
             SNode* temp = head;
             head = head-> next;
             delete temp;
-        
+            n--;
         }
 
         void print_by_pointer(){
-            SNode*  newNode = head;
-            if(head == nullptr){
+            cur = head;
+            if(cur == nullptr){
                 cout << "List is empty!" << endl;
                 return;
             }
-            while(head != nullptr){
-                cout <<head ->data<< "->";
-                head = head->next;
+            while(cur != nullptr){
+                cout << cur->data << "->";
+                cur = cur->next;
             }
             
             cout << endl;
@@ -50,11 +57,11 @@ class ReTray_S{
 
     
 
-        ~ReTray_S(){
+        ~SLB(){
             while (head) RemoveFront();
         }
 
-        void sll_observe(ReTray_S* obj, void (ReTray_S::*method)(), string msg){
+        void sll_observe(SLB* obj, void (SLB::*method)(), string msg){
         auto t0 = clk::now();
 
         (obj->*method)(); // perform operation
@@ -66,11 +73,11 @@ class ReTray_S{
     }
 };
 
-class ReTray_D{
+class DLB{
     private:
         DNode* head;
     public:
-        ReTray_D(): head(nullptr){}
+        DLB(): head(nullptr){}
         void addFront(const string item){
             DNode* newNode = new DNode{item, head, nullptr};
             if(head)head->prev = newNode;
@@ -102,11 +109,11 @@ class ReTray_D{
 
     
 
-        ReTray_D(){
+        ~DLB(){
             while (head) RemoveFront();
         }
 
-        void hll_observe(ReTray_D* obj, void (ReTray_D::*method)(), string msg){
+        void hll_observe(DLB* obj, void (DLB::*method)(), string msg){
         auto t0 = clk::now();
 
         (obj->*method)(); // perform operation
@@ -118,6 +125,35 @@ class ReTray_D{
     }
 };
 
+
+class VectorUndo {
+    vector<string> history;
+    
+public:
+        void addAction(const std::string& action) {
+            history.push_back(action); // amortized O(1)
+            
+        }
+
+        void undo() {
+            if (!history.empty())
+                history.pop_back(); // O(1)
+                
+        }
+        void printList(){
+            if (history.empty()) {
+                cout << "[ Empty ]" << endl;
+                return;
+            }
+
+            // Loop from the last valid index (size - 1) down to 0
+            for (int i = history.size() - 1; i >= 0; --i) {
+                cout << history[i] << " ";
+            }
+            cout<<endl;
+        }
+
+};
 
 
 
