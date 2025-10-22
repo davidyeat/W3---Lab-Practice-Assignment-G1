@@ -34,7 +34,7 @@ class ReTray_S{
         
         }
 
-                void print_by_pointer(){
+        void print_by_pointer(){
             SNode*  newNode = head;
             if(head == nullptr){
                 cout << "List is empty!" << endl;

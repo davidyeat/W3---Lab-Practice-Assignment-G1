@@ -98,7 +98,7 @@ class DLL{
                 popBack();
                 return;
             }
-            if(pos == 0 ){
+            if(pos == 1 ){
                 popFront();
                 return;
             }
