@@ -146,6 +146,71 @@ class SLL{
             }
         }
 
+        // --- Member function to get the predecessor ---
+        SNode* getPredecessor(int position){
+            if(head == nullptr || position <= 0 || position > n) return nullptr;
+            cur = head;
+            for(int i = 0; i < position - 2; i++){
+                cur = cur->next;
+            }
+            return cur;
+        }
+        void deleteWithPred(int pos, SNode* predecessor){
+            if(head == nullptr || n==0 || pos<0){
+                cout<<"Can't delete"<<endl;
+                return;
+            }
+            
+            
+            // Case delete heade 
+            if(pos == 1  ||predecessor == nullptr) {
+                popFront();
+                return;
+            }
+
+            if(pos == n || predecessor->next == tail){
+                popBack();
+                return;
+            }
+            // Delete the node
+            SNode* nodeDelete = predecessor->next;
+            predecessor->next = nodeDelete->next;
+            delete nodeDelete;
+            n--;
+
+            // If list become empty, update tai;
+            if(n == 0){
+                head = tail = nullptr;
+            }
+
+        }
+
+        void popAt(int pos ){
+            if(n==0 || !head){
+                cout<<"List is empty!\n";
+                return; 
+            }
+            if(pos<0 || pos>n){
+                cout<<"Can't delete!\n";
+                return;
+            }
+            if(pos == n){
+                popBack();
+                return;
+            }
+            if(pos == 0 ){
+                popFront();
+                return;
+            }
+            cur = head;
+            for (int i=0; i<pos-1; i++ ){
+                cur = cur->next;
+            }
+            SNode* tmp = cur->next;
+            cur->next = cur->next->next;
+            delete tmp;
+            n--;
+        }
 
         SNode getHead(){
             return *head;
